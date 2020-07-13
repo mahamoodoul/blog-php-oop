@@ -31,15 +31,17 @@
 					?>
 							<tr class="odd gradeX">
 								<td><?php echo $i; ?></td>
-								<td><?php echo $result['title']; ?></td>
-								<td><?php  echo $format->textShorten($result['body'], 100) ?></td>
+								<td><?php echo $result['title']; ?> </td>
+								<td><?php echo $format->textShorten($result['body'], 100) ?></td>
 								<td><?php echo $result['name']; ?></td>
-								<td ><img src="<?php echo $result['image'];?>" style="border-radius: 50%; " height="50px" width="" alt=""></td>
+								<td><img src="<?php echo $result['image']; ?>" style="border-radius: 50%; " height="50px" width="" alt=""></td>
 								<td><?php echo $result['author']; ?></td>
 								<td><?php echo $result['tags']; ?></td>
 								<td><?php echo $format->formatDate($result['date']); ?></td>
-								
-								<td><a href="">Edit</a> || <a href="">Delete</a></td>
+
+								<td>
+									<a href="editpost.php?updateid=<?php echo $result['id']; ?>">Edit</a> ||
+									<a onclick="return confirm('Are you sure to delete !!')" href="delete.php?id=<?php echo $result['id']; ?>">Delete</a></td>
 							</tr>
 					<?php 	}
 					} ?>
