@@ -9,13 +9,31 @@
 			<li><a href="#">Privacy</a></li>
 		</ul>
 	</div>
-	<p>&copy; Copyright Training with live project.</p>
+
+	<?php
+	$query = "SELECT * FROM footer WHERE id=1";
+	$copyright = $db->select($query);
+	if ($copyright) {
+		while ($result = $copyright->fetch_assoc()) {
+
+	?>
+			<p>&copy; <?php echo $result['note']; ?> <?php echo date('Y'); ?></p>
+	<?php }
+	} ?>
 </div>
 <div class="fixedicon clear">
-	<a href="http://www.facebook.com"><img src="images/fb.png" alt="Facebook" /></a>
-	<a href="http://www.twitter.com"><img src="images/tw.png" alt="Twitter" /></a>
-	<a href="http://www.linkedin.com"><img src="images/in.png" alt="LinkedIn" /></a>
-	<a href="http://www.google.com"><img src="images/gl.png" alt="GooglePlus" /></a>
+	<?php
+	$query = "SELECT * FROM tbl_social WHERE id=1";
+	$icon = $db->select($query);
+	if ($icon) {
+		while ($result = $icon->fetch_assoc()) {
+	?>
+			<a href="<?php echo $result['facebook']; ?>"><img src="images/fb.png" alt="Facebook" /></a>
+			<a href="<?php echo $result['twitter']; ?>"><img src="images/tw.png" alt="Twitter" /></a>
+			<a href="<?php echo $result['linkedin']; ?>"><img src="images/in.png" alt="LinkedIn" /></a>
+			<a href="<?php echo $result['google']; ?>"><img src="images/gl.png" alt="GooglePlus" /></a>
+	<?php }
+	} ?>
 </div>
 <script type="text/javascript" src="js/scrolltop.js"></script>
 </body>
