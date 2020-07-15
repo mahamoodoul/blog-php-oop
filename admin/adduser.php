@@ -20,25 +20,36 @@ if (!Session::get('userRole') == '0') {
                 $name = $_POST['name'];
                 $password = $_POST['password'];
                 $role = $_POST['role'];
+                $email = $_POST['email'];
 
                 $name = $format->validation($name);
                 $password = $format->validation(md5($password));
                 $role = $format->validation($role);
+                $email = $format->validation($email);
 
                 $name = mysqli_real_escape_string($db->link, $name);
                 $password = mysqli_real_escape_string($db->link, $password);
                 $role = mysqli_real_escape_string($db->link, $role);
+                $email = mysqli_real_escape_string($db->link, $email);
 
 
-                if (empty($name) || empty($password) || empty($role)) {
+                if (empty($name) || empty($password) || empty($role) || empty($email)) {
                     echo "<span class='error'>Field is requred  !</span>";
                 } else {
-                    $query = "INSERT INTO tbl_user(username,password,role) VALUES ('$name','$password','$role')";
-                    $userCreate = $db->insert($query);
-                    if ($userCreate) {
-                        echo "<span class='success'>User Added Successfully   !</span>";
+
+                    $mailquery = "select * from tbl_user where email='$email' limit 1";
+                    $mailCheck = $db->select($mailquery);
+                    if ($mailCheck != false) {
+                        echo "<span class='error'>Email already exists   !</span>";
                     } else {
-                        echo "<span class='error'>Something went wrong !! try again  !</span>";
+
+                        $query = "INSERT INTO tbl_user(username,password,email,role) VALUES ('$name','$password','$email','$role')";
+                        $userCreate = $db->insert($query);
+                        if ($userCreate) {
+                            echo "<span class='success'>User Added Successfully   !</span>";
+                        } else {
+                            echo "<span class='error'>Something went wrong !! try again  !</span>";
+                        }
                     }
                 }
             }
@@ -53,9 +64,18 @@ if (!Session::get('userRole') == '0') {
                             Username
                         </td>
                         <td>
-                            <input type="text" name="name" placeholder="Enter User Name..." class="medium" />
+                            <input type="text" value="<?php if(isset($name)){ echo $name;} ?>" name="name" placeholder="Enter User Name..." class="medium" />
                         </td>
                     </tr>
+                    <tr>
+                        <td>
+                            Email
+                        </td>
+                        <td>
+                            <input type="email" value="<?php if(isset($email)){ echo $email;} ?>" name="email" placeholder="Enter Email..." class="medium" />
+                        </td>
+                    </tr>
+                    <tr>
                     <tr>
                         <td>
                             Password
@@ -70,7 +90,7 @@ if (!Session::get('userRole') == '0') {
                             USer role
                         </td>
                         <td>
-                            <select id="select" name="role">
+                            <select id="select" name="role"  ?>">
 
                                 <option value="">Select User Name</option>
                                 <option value="0">Admin</option>

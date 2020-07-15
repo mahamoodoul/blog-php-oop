@@ -40,8 +40,20 @@
 								<td><?php echo $format->formatDate($result['date']); ?></td>
 
 								<td>
-									<a href="editpost.php?updateid=<?php echo $result['id']; ?>">Edit</a> ||
-									<a onclick="return confirm('Are you sure to delete !!')" href="delete.php?id=<?php echo $result['id']; ?>">Delete</a></td>
+
+									<a href="viewpost.php?viewid=<?php echo $result['id']; ?>">View</a> 
+									<?php
+									if (Session::get('userId') == $result['userid'] || Session::get('userRole') == '0') {
+
+									?>
+										|| <a href="editpost.php?updateid=<?php echo $result['id']; ?>">Edit</a> ||
+										<a onclick="return confirm('Are you sure to delete !!')" href="delete.php?id=<?php echo $result['id']; ?>">Delete</a></td>
+									<?php } ?>
+
+
+
+
+
 							</tr>
 					<?php 	}
 					} ?>

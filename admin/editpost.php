@@ -24,6 +24,7 @@
             $body = mysqli_real_escape_string($db->link, $_POST['body']);
             $tags = mysqli_real_escape_string($db->link, $_POST['tags']);
             $author = mysqli_real_escape_string($db->link, $_POST['author']);
+            $userId = mysqli_real_escape_string($db->link, $_POST['userId']);
 
             $permited  = array('jpg', 'jpeg', 'png', 'gif');
             $file_name = $_FILES['image']['name'];
@@ -52,6 +53,8 @@
                     } else {
 
 
+                    
+
                         move_uploaded_file($file_temp, $uploaded_image);
                         $query = "UPDATE tbl_post
                          SET
@@ -60,7 +63,8 @@
                          body=' $body',
                          image=' $uploaded_image',
                          author=' $author',
-                         tags='$tags '
+                         tags='$tags ',
+                         userid='$userId'
                          WHERE id='$postId' ";
 
                         $updated_row = $db->update($query);
@@ -79,7 +83,8 @@
                          title=' $title',
                          body=' $body',
                          author=' $author',
-                         tags='$tags '
+                         tags='$tags ',
+                         userid='$userId'
                          WHERE id='$postId' ";
 
                     $updated_row = $db->update($query);
@@ -173,6 +178,7 @@
                             </td>
                             <td>
                                 <input type="text" name="author" value="<?php echo $postResult['author']; ?>" class="medium" />
+                                <input type="text"  name="userId" value="<?php echo Session::get('userId'); ?>" class="medium" />
                             </td>
                         </tr>
                         <tr>
